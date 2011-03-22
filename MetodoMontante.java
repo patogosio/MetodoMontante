@@ -35,6 +35,9 @@ public class MetodoMontante {
 				pivAnt = sistema[i][i];
 			}
 
+			// despliega la matriz
+			//for (int i = 0; i < sistema.length; i++)
+			//	System.out.println(Arrays.toString(sistema[i]));
 			encuentraSolucion();
 		}
 
@@ -164,7 +167,7 @@ public class MetodoMontante {
 			System.out.print("* ");
 			for (j = 0; j < numCol - 2; j++) 
 				System.out.print(arr[i][j] + " X" + (j+1) + " + ");
-			System.out.print(arr[i][j] + " X" + (j+1) + " + " + arr[i][j+1] + " = 0\n");
+			System.out.print(arr[i][j] + " X" + (j+1) + " = " + arr[i][j+1] + "\n");
 		}
 
 		System.out.println("* Gracias:");
