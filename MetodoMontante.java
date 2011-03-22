@@ -100,6 +100,11 @@ public class MetodoMontante {
 			sistema[indice][indice] = determinante;
 		}
 
+		/**
+		 * Analiza la matriz resultante y busca el resultado del método.
+		 * Despliega si el sistema de ecuaciones tiene solución, un número
+		 * infinito de soluciones, o no tiene solución.
+		 */
 		private static void encuentraSolucion() {
 			boolean infinito = false;
 			boolean sinSolucion = false;
