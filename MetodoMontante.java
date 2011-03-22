@@ -108,19 +108,33 @@ public class MetodoMontante {
 		int numRen = 0;
 		float [][] arr;
 
-		System.out.println("* ¿Cuantos renglones?");
+		System.out.println("* ¿Cuantas ecuaciones?");
 		numRen = input.nextInt();
 
-		System.out.println("* ¿Cuantas columnas?");
-		numCol = input.nextInt();
+		System.out.println("* ¿Cuantas incógnitas?");
+		numCol = input.nextInt() + 1;
+
+		if (numRen != (numCol - 1)) {
+			System.out.println("* El número de incógnitas debe ser igual al " + 
+					"número de ecuaciones");
+			return;
+		}
 
 		arr = new float [numRen][numCol];
 
-		System.out.println("* Inserte los datos");
+		System.out.println("* Inserte las ecuaciones:");
 
-		for (int i = 0; i < numRen; i++)
-			for (int j = 0; j < numCol; j++) 
+		for (int i = 0; i < numRen; i++) {
+			int j;
+			System.out.println("* inserte ecuación " + (i + 1) + ":");
+			for (j = 0; j < numCol; j++) 
 				arr[i][j] = input.nextFloat();
+			// Despliega la ecuación
+			System.out.print("* ");
+			for (j = 0; j < numCol - 2; j++) 
+				System.out.print(arr[i][j] + " X" + (j+1) + " + ");
+			System.out.print(arr[i][j] + " X" + (j+1) + " + " + arr[i][j+1] + " = 0\n");
+		}
 
 		System.out.println("* Gracias:");
 
