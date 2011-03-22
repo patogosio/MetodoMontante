@@ -6,7 +6,7 @@ import java.util.Arrays;
  * arreglo se le hace el método de Montante
  * */
 public class MetodoMontante {
-
+	
 	/**
 	 * Montante es una clase privada que contiene la implementación del método
 	 * de resolución de sistemas de ecuaciones de Montante. Su única función
@@ -15,7 +15,7 @@ public class MetodoMontante {
 	 * */
 	private static class Montante {
 		private static float sistema[][];
-
+		
 		/**
 		 * Imprime en pantalla el resultado de la ejecución del método de
 		 * Montante en el arreglo que se indicó.
@@ -26,7 +26,7 @@ public class MetodoMontante {
 		public static void metodo(float[][] arr) {
 			sistema = arr;
 			float pivAnt = 1;
-
+			
 			for (int i = 0; i < sistema.length; i++) {
 				diagonalDeterminante(i);
 				primerCuadrante(i, pivAnt);
@@ -34,13 +34,13 @@ public class MetodoMontante {
 				columnaACeros(i);
 				pivAnt = sistema[i][i];
 			}
-
+			
 			// despliega la matriz
 			//for (int i = 0; i < sistema.length; i++)
 			//	System.out.println(Arrays.toString(sistema[i]));
 			encuentraSolucion();
 		}
-
+		
 		/**
 		 * Convierte los números que se encuentran antes del índice, dentro de
 		 * la diagonal determinante, en el determinante.
@@ -52,7 +52,7 @@ public class MetodoMontante {
 			for (int i = 0; i < indice; i++)
 				sistema[i][i] = sistema[indice][indice];
 		}
-
+		
 		/**
 		 * Efectúa las operaciones establecidas por el método de Montante en el
 		 * primer cuadrante de la matriz.
@@ -65,11 +65,11 @@ public class MetodoMontante {
 			for (int i = 0; i < indice; i++) {
 				for (int j = indice + 1; j < sistema[0].length; j++) {
 					sistema[i][j] = (((sistema[i][indice] * sistema[indice][j]) - 
-						(sistema[indice][indice] * sistema[i][j])) * -1) / pivAnt;
+									  (sistema[indice][indice] * sistema[i][j])) * -1) / pivAnt;
 				}
 			}
 		}
-
+		
 		/**
 		 * Efectúa las operaciones establecidas por el método de Montante en el
 		 * cuarto cuadrante de la matriz.
@@ -82,11 +82,11 @@ public class MetodoMontante {
 			for (int i = indice + 1; i < sistema.length; i++) {
 				for (int j = indice + 1; j < sistema[0].length; j++) {
 					sistema[i][j] = ((sistema[indice][indice] * sistema[i][j]) - 
-						(sistema[i][indice] * sistema[indice][j])) / pivAnt;
+									 (sistema[i][indice] * sistema[indice][j])) / pivAnt;
 				}
 			}
 		}
-
+		
 		/**
 		 * Convierte los números que se encuentran en la columna indicada en
 		 * ceros.
@@ -96,13 +96,13 @@ public class MetodoMontante {
 		 */
 		private static void columnaACeros(int indice) {
 			float determinante = sistema[indice][indice];
-
+			
 			for (int i = 0; i < sistema.length; i++) 
 				sistema[i][indice] = 0;
-
+			
 			sistema[indice][indice] = determinante;
 		}
-
+		
 		/**
 		 * Analiza la matriz resultante y busca el resultado del método.
 		 * Despliega si el sistema de ecuaciones tiene solución, un número
@@ -112,7 +112,7 @@ public class MetodoMontante {
 			boolean infinito = false;
 			boolean sinSolucion = false;
 			float as[] = new float [sistema.length];
-
+			
 			for (int i = 0; i < sistema.length; i++) {
 				if( sistema[i][i] == 0 ) {
 					if (sistema[i][sistema[0].length - 1] == 0) {
@@ -124,55 +124,95 @@ public class MetodoMontante {
 					as[i] = sistema[i][sistema[0].length - 1] / sistema[i][i];
 				}
 			}
-
+			
 			if( sinSolucion == true) {
 				System.out.println("* El sistema no tiene solución");
 			} else if ( infinito == true) {
 				System.out.println("* El sistema tiene un número infinito de soluciones");
 			} else {
 				for (int i = 0; i < as.length; i++) 
-				System.out.println("a" + (i+1) + " = " + as[i]);
+					System.out.println("a" + (i+1) + " = " + as[i]);
 			}
 		}
 	}
-
+	
+	public static void printArr(float [][] arr){
+		for(int i=0; i<arr.length; i++){
+			for(int j=0; j< arr[i].length; j++){
+				System.out.print(arr[i][j]+" ");
+			}
+			System.out.println();
+		}
+	}
+	
+	private static int validaDiagonal(float[][] arr) {
+		// TODO verificar que no haya 0 en la diagonal principal
+		for(int i=0; i<arr.length; i++){
+			if(arr[i][i]==0){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	private static void intercambiaRenglones(float[][] arr) {
+		// TODO intercambia renglones hasta que no hay 0os en la diagonal
+		float[] aux = new float [arr.length];
+		int problema = -1;//numero del renglon donde hay un 0
+		int contador=0;
+		while(((problema=validaDiagonal(arr))!=-1)&& contador<1000){
+			for(int i=0; i<arr.length; i++){
+				aux = arr[problema];	
+				arr[problema]=arr[i];
+				arr[i]=aux;
+			}
+			contador++;
+		}
+	}
+	
 	public static void main (String [] args) {
 		Scanner input = new Scanner(System.in);
 		int numCol = 0;
 		int numRen = 0;
 		float [][] arr;
-
+		
 		System.out.println("* ¿Cuantas ecuaciones?");
 		numRen = input.nextInt();
-
+		
 		System.out.println("* ¿Cuantas incógnitas?");
 		numCol = input.nextInt() + 1;
-
+		
 		if (numRen != (numCol - 1)) {
 			System.out.println("* El número de incógnitas debe ser igual al " + 
-					"número de ecuaciones");
+							   "número de ecuaciones");
 			return;
 		}
-
+		
 		arr = new float [numRen][numCol];
-
+		
 		System.out.println("* Inserte las ecuaciones:");
-
+		
 		for (int i = 0; i < numRen; i++) {
 			int j;
 			System.out.println("* inserte ecuación " + (i + 1) + ":");
-			for (j = 0; j < numCol; j++) 
+			for (j = 0; j < numCol-1; j++){
+				System.out.print("coeficiente"+(j+1)+": ");
 				arr[i][j] = input.nextFloat();
+			}
+			System.out.print("respuesta de funcion "+(i+1)+": ");
+			arr[i][arr[i].length-1] = input.nextFloat();
 			// Despliega la ecuación
 			System.out.print("* ");
 			for (j = 0; j < numCol - 2; j++) 
 				System.out.print(arr[i][j] + " X" + (j+1) + " + ");
 			System.out.print(arr[i][j] + " X" + (j+1) + " = " + arr[i][j+1] + "\n");
 		}
-
 		System.out.println("* Gracias:");
-
-		// Se ejecuta el método de montante
+		// Se ejecuta el método de montante, si no hay seros en la diagonal principal
+		if(validaDiagonal(arr)!=-1){
+			intercambiaRenglones(arr);
+		}
 		Montante.metodo(arr);
 	}
+	
 }
