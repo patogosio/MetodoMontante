@@ -35,8 +35,7 @@ public class MetodoMontante {
 				pivAnt = sistema[i][i];
 			}
 
-			for (int i = 0; i < sistema.length; i++) 
-				System.out.println(Arrays.toString(sistema[i]));
+			encuentraSolucion();
 		}
 
 		/**
@@ -99,6 +98,33 @@ public class MetodoMontante {
 				sistema[i][indice] = 0;
 
 			sistema[indice][indice] = determinante;
+		}
+
+		private static void encuentraSolucion() {
+			boolean infinito = false;
+			boolean sinSolucion = false;
+			float as[] = new float [sistema.length];
+
+			for (int i = 0; i < sistema.length; i++) {
+				if( sistema[i][i] == 0 ) {
+					if (sistema[i][sistema[0].length - 1] == 0) {
+						infinito = true;
+					} else {
+						sinSolucion = true;
+					}
+				} else {
+					as[i] = sistema[i][sistema[0].length - 1] / sistema[i][i];
+				}
+			}
+
+			if( sinSolucion == true) {
+				System.out.println("* El sistema no tiene solución");
+			} else if ( infinito == true) {
+				System.out.println("* El sistema tiene un número infinito de soluciones");
+			} else {
+				for (int i = 0; i < as.length; i++) 
+				System.out.println("a" + (i+1) + " = " + as[i]);
+			}
 		}
 	}
 
